@@ -1,0 +1,22 @@
+#!/bin/sh
+mkdir -p ~/bin
+
+[ -e ~/bin/prepare-commit-msg ] && grep -o '### UNIQUE THING ###' ~/bin/prepare-commit-msg && rm ~/bin/prepare-commit-msg
+echo -n '#!/bin/sh
+### UNIQUE THING ###
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+branch_name="$(git symbolic-ref HEAD 2>/dev/null)" || branch_name="(unnamed branch)"
+branch_name=${branch_name##refs/heads/}
+echo $COMMIT_MSG_FILE
+(echo -n "$branch_name: " && cat "$COMMIT_MSG_FILE") > "${COMMIT_MSG_FILE}_prepared"
+rm "$COMMIT_MSG_FILE"
+mv "${COMMIT_MSG_FILE}_prepared" "$COMMIT_MSG_FILE"' > ~/bin/prepare-commit-msg
+chmod +x ~/bin/prepare-commit-msg
+[ -e ~/bin/install-branched-commit-message ] && grep -o '### UNIQUE THING ###' ~/bin/install-branched-commit-message && rm ~/bin/install-branched-commit-message
+echo -n '#!/bin/sh
+### UNIQUE THING ###
+([ -e ".git" ] && ln -s ~/bin/prepare-commit-msg .git/hooks/prepare-commit-msg) || echo "Must be run in git repository root."' > ~/bin/install-branched-commit-message
+chmod +x ~/bin/install-branched-commit-message

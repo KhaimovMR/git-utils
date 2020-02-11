@@ -10,7 +10,7 @@ SHA1=$3
 
 branch_name="$(git symbolic-ref HEAD 2>/dev/null)" || branch_name="(unnamed branch)"
 branch_name=${branch_name##refs/heads/}
-echo $COMMIT_MSG_FILE
+[ "$COMMIT_MSG_FILE" == ".git/MERGE_MSG" ] && exit 0
 (echo -n "$branch_name: " && cat "$COMMIT_MSG_FILE") > "${COMMIT_MSG_FILE}_prepared"
 rm "$COMMIT_MSG_FILE"
 mv "${COMMIT_MSG_FILE}_prepared" "$COMMIT_MSG_FILE"' > ~/bin/prepare-commit-msg

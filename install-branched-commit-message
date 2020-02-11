@@ -2,7 +2,7 @@
 mkdir -p ~/bin
 
 [ -e ~/bin/prepare-commit-msg ] && grep -o '### UNIQUE THING ###' ~/bin/prepare-commit-msg && rm ~/bin/prepare-commit-msg
-echo -n '#!/bin/sh
+echo -n '#!/bin/bash
 ### UNIQUE THING ###
 COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=$2
